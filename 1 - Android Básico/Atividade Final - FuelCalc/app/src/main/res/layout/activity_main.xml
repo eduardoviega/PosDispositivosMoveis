@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/appbar_rounded"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/app_name"
+        app:titleCentered="true"
+        app:titleTextColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/first_fuel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/first_fuel"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/select_first_fuel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/select_first_fuel" />
+
+    <TextView
+        android:id="@+id/first_fuel_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/none"
+        app:layout_constraintBottom_toBottomOf="@+id/first_fuel"
+        app:layout_constraintStart_toEndOf="@+id/first_fuel"
+        app:layout_constraintTop_toTopOf="@+id/first_fuel" />
+
+    <Button
+        android:id="@+id/select_first_fuel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/select_first_fuel"
+        android:onClick="btFirstFuelOnClick"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <TextView
+        android:id="@+id/second_fuel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/second_fuel"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/select_second_fuel"
+        app:layout_constraintStart_toStartOf="@+id/first_fuel"
+        app:layout_constraintTop_toBottomOf="@+id/select_first_fuel" />
+
+    <TextView
+        android:id="@+id/second_fuel_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/none"
+        app:layout_constraintBottom_toBottomOf="@+id/second_fuel"
+        app:layout_constraintStart_toEndOf="@+id/second_fuel"
+        app:layout_constraintTop_toTopOf="@+id/second_fuel" />
+
+    <Button
+        android:id="@+id/select_second_fuel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/select_second_fuel"
+        android:onClick="btSecondFuelOnClick"
+        app:layout_constraintEnd_toEndOf="@+id/select_first_fuel"
+        app:layout_constraintTop_toBottomOf="@+id/select_first_fuel" />
+
+    <TextView
+        android:id="@+id/first_fuel_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/price_per_liter_of_first_fuel"
+        app:layout_constraintBottom_toBottomOf="@+id/first_fuel_price_edit_text"
+        app:layout_constraintStart_toStartOf="@+id/second_fuel"
+        app:layout_constraintTop_toTopOf="@+id/first_fuel_price_edit_text" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/first_fuel_price_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/select_first_fuel"
+        app:layout_constraintStart_toEndOf="@+id/first_fuel_price"
+        app:layout_constraintTop_toBottomOf="@+id/select_second_fuel">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/first_fuel_price_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/zero_money"
+            android:inputType="number|numberDecimal" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/second_fuel_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/price_per_liter_of_second_fuel"
+        app:layout_constraintBottom_toBottomOf="@+id/second_fuel_price_edit_text"
+        app:layout_constraintStart_toStartOf="@+id/first_fuel_price"
+        app:layout_constraintTop_toTopOf="@+id/second_fuel_price_edit_text" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/second_fuel_price_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/first_fuel_price_edit_text"
+        app:layout_constraintStart_toEndOf="@+id/second_fuel_price"
+        app:layout_constraintTop_toBottomOf="@+id/first_fuel_price_edit_text">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/second_fuel_price_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/zero_money"
+            android:inputType="number|numberDecimal" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/first_fuel_range"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/range_with_first_fuel"
+        app:layout_constraintBottom_toBottomOf="@+id/first_fuel_range_edit_text"
+        app:layout_constraintStart_toStartOf="@+id/second_fuel_price"
+        app:layout_constraintTop_toTopOf="@+id/first_fuel_range_edit_text" />
+
+    <TextView
+        android:id="@+id/second_fuel_range"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/range_with_second_fuel"
+        app:layout_constraintBottom_toBottomOf="@+id/second_fuel_range_text_edit"
+        app:layout_constraintStart_toStartOf="@+id/first_fuel_range"
+        app:layout_constraintTop_toTopOf="@+id/second_fuel_range_text_edit" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/first_fuel_range_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:hint="@string/zero_km_l"
+        app:layout_constraintEnd_toEndOf="@+id/second_fuel_price_edit_text"
+        app:layout_constraintStart_toEndOf="@+id/first_fuel_range"
+        app:layout_constraintTop_toBottomOf="@+id/second_fuel_price_edit_text">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/first_fuel_range_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number|numberDecimal" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/second_fuel_range_text_edit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:hint="@string/zero_km_l"
+        app:layout_constraintEnd_toEndOf="@+id/first_fuel_range_edit_text"
+        app:layout_constraintStart_toEndOf="@+id/second_fuel_range"
+        app:layout_constraintTop_toBottomOf="@+id/first_fuel_range_edit_text">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/second_fuel_range_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/calculate_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/calculate"
+        android:textColor="?attr/colorOnPrimary"
+        android:onClick="btCalculateOnClick"
+        app:layout_constraintEnd_toEndOf="@+id/select_first_fuel"
+        app:layout_constraintStart_toStartOf="@+id/second_fuel_range"
+        app:layout_constraintTop_toBottomOf="@+id/second_fuel_range_text_edit" />
+
+    <TextView
+        android:id="@+id/result_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/cheaper_fuel"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/calculate_button"
+        app:layout_constraintTop_toBottomOf="@+id/calculate_button" />
+
+    <TextView
+        android:id="@+id/result_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/none"
+        app:layout_constraintBottom_toBottomOf="@+id/result_text"
+        app:layout_constraintEnd_toEndOf="@+id/calculate_button"
+        app:layout_constraintTop_toTopOf="@+id/result_text" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

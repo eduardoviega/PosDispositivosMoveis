@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Fuel Calc</string>
+    <string name="fuels_list">Select Fuel</string>
+    <string name="none">None</string>
+    <string name="first_fuel">First Fuel:</string>
+    <string name="second_fuel">Second Fuel:</string>
+    <string name="select_first_fuel">Select First Fuel</string>
+    <string name="select_second_fuel">Select Second Fuel</string>
+    <string name="price_per_liter_of_first_fuel">Price per liter of first fuel:</string>
+    <string name="zero_money">$ 0.00</string>
+    <string name="zero_km_l">0.00 km/l</string>
+    <string name="price_per_liter_of_second_fuel">Price per liter of second fuel:</string>
+    <string name="range_with_first_fuel">Range with first fuel:</string>
+    <string name="range_with_second_fuel">Range with second fuel:</string>
+    <string name="calculate">Calculate</string>
+    <string name="cheaper_fuel">Cheaper fuel:</string>
+    <string name="is_better">%s is better!</string>
+    <string name="same_value">Both fuels have the same value!</string>
+    <string name="fill_all_fields">Fill all fields!</string>
+</resources>

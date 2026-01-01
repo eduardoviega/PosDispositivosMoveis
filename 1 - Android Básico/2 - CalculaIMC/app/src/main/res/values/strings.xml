@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">CalculaIMC</string>
+    <string name="peso">Peso:</string>
+    <string name="altura">Altura:</string>
+    <string name="peso_hint">Campo peso deve ser informado.</string>
+    <string name="altura_hint">Campo altura deve ser informado.</string>
+    <string name="resultado">Resultado:</string>
+    <string name="zeros">0,0</string>
+    <string name="calcular">Calcular</string>
+    <string name="limpar">Limpar</string>
+    <string name="limpar_long_click">Botão para limpar a tela.</string>
+    <string name="peso_error">Peso deve ser informado!</string>
+    <string name="altura_error2">Altura deve ser informada!</string>
+</resources>
