@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.ImageButton
 import android.widget.TextView
+import br.edu.utfpr.usandosqlite.MainActivity
 import br.edu.utfpr.usandosqlite.R
 import br.edu.utfpr.usandosqlite.database.DatabaseHandler
 import br.edu.utfpr.usandosqlite.entity.Cadastro
@@ -42,11 +44,24 @@ class MeuAdapter(val context: Context, val cursor: Cursor) : BaseAdapter(){
 
         val tvNomeElementoLista = view.findViewById<TextView>(R.id.tvNomeElementoLista)
         val tvTelefoneElementoLista = view.findViewById<TextView>(R.id.tvTelefoneElementoLista)
+        val btEditarElementoLista = view.findViewById<ImageButton>(R.id.btEditarElementoLista)
 
         cursor.moveToPosition(pos)
 
-        tvNomeElementoLista.text = cursor.getString(cursor.getColumnIndexOrThrow("nome"))
-        tvTelefoneElementoLista.text = cursor.getString(cursor.getColumnIndexOrThrow("telefone"))
+        tvNomeElementoLista.text = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHandler.COLUMN_NOME))
+        tvTelefoneElementoLista.text = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHandler.COLUMN_TELEFONE))
+
+        btEditarElementoLista.setOnClickListener {
+            val intent = android.content.Intent(context, MainActivity::class.java)
+            cursor.moveToPosition(pos)
+
+            intent.putExtra("cod", cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHandler.COLUMN_ID)))
+            intent.putExtra(DatabaseHandler.COLUMN_NOME, cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHandler.COLUMN_NOME)))
+            intent.putExtra(DatabaseHandler.COLUMN_TELEFONE, cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHandler.COLUMN_TELEFONE)))
+
+            context.startActivity(intent)
+        }
+
 
         return view
     }

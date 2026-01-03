@@ -12,10 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UsandoSqlite">
         <activity
-            android:name=".ListarActivity"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ListarActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

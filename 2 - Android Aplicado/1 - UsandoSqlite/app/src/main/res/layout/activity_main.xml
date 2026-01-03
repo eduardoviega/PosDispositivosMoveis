@@ -17,6 +17,7 @@
         android:id="@+id/etCod"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:enabled="false"
         android:inputType="number" />
 
     <TextView
@@ -42,33 +43,24 @@
         android:inputType="phone" />
 
     <Button
+        android:id="@+id/btSalvar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Incluir:"
-        android:onClick="btIncluirOnClick"/>
+        android:text="Salvar:"
+        android:onClick="btSalvarOnClick"/>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Alterar:"
-        android:onClick="btAlterarOnClick"/>
-
-    <Button
+        android:id="@+id/btExcluir"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Excluir:"
         android:onClick="btExcluirOnClick"/>
 
     <Button
+        android:id="@+id/btPesquisar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Pesquisar:"
         android:onClick="btPesquisarOnClick"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Listar:"
-        android:onClick="btListarOnClick"/>
 
 </LinearLayout>

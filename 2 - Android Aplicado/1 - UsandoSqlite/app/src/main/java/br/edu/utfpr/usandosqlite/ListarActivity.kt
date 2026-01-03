@@ -1,6 +1,7 @@
 package br.edu.utfpr.usandosqlite
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -32,11 +33,21 @@ class ListarActivity : AppCompatActivity() {
         initList()
     }
 
+    override fun onStart() {
+        super.onStart()
+        initList()
+    }
+
     private fun initList() {
         val registros = banco.listar()
 
         val adapter = MeuAdapter(this, registros)
 
         binding.lvRegistros.adapter = adapter
+    }
+
+    fun fabIncluirOnClick(view: View) {
+        val intent = android.content.Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 }
