@@ -81,24 +81,14 @@ class DatabaseHandler private constructor(context: Context) : SQLiteOpenHelper(c
         return retorno
     }
 
-    fun listar() : MutableList<Cadastro> {
-        val lista: MutableList<Cadastro> = mutableListOf()
-
-        val registro: Cursor = writableDatabase.query(
+    fun listar() : Cursor {
+        val registros: Cursor = writableDatabase.query(
             TABLE_NAME,
             null,
             null,
             null, null, null, null
         )
 
-        while (registro.moveToNext()) {
-            val id = registro.getInt(0)
-            val nome = registro.getString(1)
-            val telefone = registro.getString(2)
-            val cadastro = Cadastro(id, nome, telefone)
-            lista.add(cadastro)
-        }
-
-        return lista
+        return registros
     }
 }

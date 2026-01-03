@@ -1,9 +1,6 @@
 package br.edu.utfpr.usandosqlite
 
-import android.content.ContentValues
-import android.database.Cursor
-import android.database.sqlite.SQLiteDatabase
-import android.database.sqlite.SQLiteDatabase.openOrCreateDatabase
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -89,22 +86,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun btListarOnClick(view: View) {
-        val registros = banco.listar()
-
-        if (registros.isNotEmpty()) {
-            val builder = StringBuilder()
-            for (cadastro in registros) {
-                builder.append("${cadastro._id} - ${cadastro.nome} - ${cadastro.telefone}")
-                if (cadastro != registros.last()) builder.append("\n")
-            }
-
-            Toast.makeText(
-                this, builder.toString(), Toast.LENGTH_SHORT
-            ).show()
-        } else {
-            Toast.makeText(
-                this, "Nenhum registro encontrado!", Toast.LENGTH_SHORT
-            ).show()
-        }
+        val intent = Intent(this, ListarActivity::class.java)
+        startActivity(intent)
     }
 }

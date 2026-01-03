@@ -1,0 +1,54 @@
+package br.edu.utfpr.usandosqlite.adapter
+
+import android.content.Context
+import android.database.Cursor
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.BaseAdapter
+import android.widget.TextView
+import br.edu.utfpr.usandosqlite.R
+import br.edu.utfpr.usandosqlite.database.DatabaseHandler
+import br.edu.utfpr.usandosqlite.entity.Cadastro
+
+class MeuAdapter(val context: Context, val cursor: Cursor) : BaseAdapter(){
+    override fun getCount(): Int {
+        return cursor.count
+    }
+
+    override fun getItem(pos: Int): Any? {
+        cursor.moveToPosition(pos)
+
+        val cadastro = Cadastro(
+            cursor.getInt(cursor.getColumnIndexOrThrow("_id")),
+            cursor.getString(cursor.getColumnIndexOrThrow("nome")),
+            cursor.getString(cursor.getColumnIndexOrThrow("telefone"))
+        )
+        return cadastro
+    }
+
+    override fun getItemId(pos: Int): Long {
+        cursor.moveToPosition(pos)
+        return cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHandler.COLUMN_ID)).toLong()
+    }
+
+    override fun getView(
+        pos: Int,
+        p1: View?,
+        p2: ViewGroup?
+    ): View? {
+        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view = inflater.inflate(R.layout.elemento_lista, null)
+
+        val tvNomeElementoLista = view.findViewById<TextView>(R.id.tvNomeElementoLista)
+        val tvTelefoneElementoLista = view.findViewById<TextView>(R.id.tvTelefoneElementoLista)
+
+        cursor.moveToPosition(pos)
+
+        tvNomeElementoLista.text = cursor.getString(cursor.getColumnIndexOrThrow("nome"))
+        tvTelefoneElementoLista.text = cursor.getString(cursor.getColumnIndexOrThrow("telefone"))
+
+        return view
+    }
+
+}
