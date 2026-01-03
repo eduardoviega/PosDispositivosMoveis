@@ -2,8 +2,10 @@ package br.edu.utfpr.usandosqlite
 
 import android.os.Bundle
 import android.view.View
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -42,6 +44,8 @@ class MainActivity : AppCompatActivity() {
             binding.etNome.setText(intent.getStringExtra("nome"))
             binding.etTelefone.setText(intent.getStringExtra("telefone"))
         } else {
+            binding.tvCod.visibility = View.GONE
+            binding.etCod.visibility = View.GONE
             binding.btExcluir.visibility = View.GONE
             binding.btPesquisar.visibility = View.GONE
         }
@@ -82,18 +86,39 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun btPesquisarOnClick(view: View) {
-        val cadastro = banco.pesquisar(binding.etCod.text.toString().toInt())
+        val etCodPesquisar = EditText(this)
+        val builder = AlertDialog.Builder(this)
 
-        if (cadastro != null) {
-            binding.etNome.setText(cadastro.nome)
-            binding.etTelefone.setText(cadastro.telefone)
-        } else {
-            binding.etNome.setText("")
-            binding.etTelefone.setText("")
+        builder.setTitle("Digite o Código")
+        builder.setView(etCodPesquisar)
+        builder.setCancelable(false)
+        builder.setNegativeButton("Fechar", null)
 
-            Toast.makeText(
-                this, "Registro não encontrado!", Toast.LENGTH_SHORT
-            ).show()
+        builder.setPositiveButton("Pesquisar") { dialog, _ ->
+            if (etCodPesquisar.text != null) {
+                val cadastro = banco.pesquisar(etCodPesquisar.text.toString().toInt())
+
+                if (cadastro != null) {
+                    binding.etCod.setText(cadastro._id.toString())
+                    binding.etNome.setText(cadastro.nome)
+                    binding.etTelefone.setText(cadastro.telefone)
+                } else {
+                    binding.etCod.setText("")
+                    binding.etNome.setText("")
+                    binding.etTelefone.setText("")
+
+                    Toast.makeText(
+                        this, "Registro não encontrado!", Toast.LENGTH_SHORT
+                    ).show()
+                }
+            } else {
+                Toast.makeText(
+                    this, "Código inválido!", Toast.LENGTH_SHORT
+                ).show()
+            }
+            dialog.dismiss()
         }
+
+        builder.show()
     }
 }
