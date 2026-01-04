@@ -7,7 +7,8 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import br.edu.utfpr.usandosqlite.entity.Cadastro
 
-class DatabaseHandler private constructor(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+class DatabaseHandler private constructor(context: Context) :
+    SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     companion object {
         const val DATABASE_VERSION = 1
@@ -62,7 +63,7 @@ class DatabaseHandler private constructor(context: Context) : SQLiteOpenHelper(c
         writableDatabase.delete(TABLE_NAME, "$COLUMN_ID = $id", null)
     }
 
-    fun pesquisar(id: Int) : Cadastro? {
+    fun pesquisar(id: Int): Cadastro? {
         val registro: Cursor = writableDatabase.query(
             TABLE_NAME,
             null,
@@ -81,12 +82,18 @@ class DatabaseHandler private constructor(context: Context) : SQLiteOpenHelper(c
         return retorno
     }
 
-    fun listar() : Cursor {
+    fun listar(filtro: String): Cursor {
+        val selection = if (filtro.isNotEmpty()) "nome LIKE ?" else null
+        val selectionArgs = if (filtro.isNotEmpty()) arrayOf("%$filtro%") else null
+
         val registros: Cursor = writableDatabase.query(
             TABLE_NAME,
             null,
+            selection,
+            selectionArgs,
             null,
-            null, null, null, null
+            null,
+            null
         )
 
         return registros
