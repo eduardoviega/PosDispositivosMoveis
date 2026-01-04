@@ -1,2 +1,2 @@
 # 1 - HelloCompose
-![51e99bde-32a6-4991-9181-4c3560ce2bfb](https://github.com/user-attachments/assets/4cf51680-08cb-4e08-9f15-b404e01a7a20)
+![3d908c3c-82e5-4256-860d-69f0a2ec28c5](https://github.com/user-attachments/assets/e6b7d3ca-faf2-40fc-883f-05ab7b2d3121)
