@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">HelloCompose</string>
+    <string name="happy_birthday">Happy Birthday %1$s!</string>
+    <string name="from">From %1$s!</string>
+</resources>
