@@ -1,16 +1,17 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
-    namespace = "br.edu.utfpr.usandosqlite"
+    namespace = "br.edu.utfpr.usandofirestore"
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId = "br.edu.utfpr.usandosqlite"
+        applicationId = "br.edu.utfpr.usandofirestore"
         minSdk = 26
         targetSdk = 36
         versionCode = 1
@@ -47,6 +48,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.firebase.firestore)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -1,4 +1,4 @@
-package br.edu.utfpr.usandosqlite.adapter
+package br.edu.utfpr.usandofirestore.adapter
 
 import android.content.Context
 import android.database.Cursor
@@ -8,10 +8,10 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageButton
 import android.widget.TextView
-import br.edu.utfpr.usandosqlite.MainActivity
-import br.edu.utfpr.usandosqlite.R
-import br.edu.utfpr.usandosqlite.database.DatabaseHandler
-import br.edu.utfpr.usandosqlite.entity.Cadastro
+import br.edu.utfpr.usandofirestore.MainActivity
+import br.edu.utfpr.usandofirestore.R
+import br.edu.utfpr.usandofirestore.database.DatabaseHandler
+import br.edu.utfpr.usandofirestore.entity.Cadastro
 
 class MeuAdapter(val context: Context, val cursor: Cursor) : BaseAdapter(){
     override fun getCount(): Int {

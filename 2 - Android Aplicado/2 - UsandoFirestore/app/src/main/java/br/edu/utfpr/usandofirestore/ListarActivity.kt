@@ -1,15 +1,14 @@
-package br.edu.utfpr.usandosqlite
+package br.edu.utfpr.usandofirestore
 
 import android.os.Bundle
-import android.view.View
 import android.widget.SearchView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import br.edu.utfpr.usandosqlite.adapter.MeuAdapter
-import br.edu.utfpr.usandosqlite.database.DatabaseHandler
-import br.edu.utfpr.usandosqlite.databinding.ActivityListarBinding
+import br.edu.utfpr.usandofirestore.adapter.MeuAdapter
+import br.edu.utfpr.usandofirestore.database.DatabaseHandler
+import br.edu.utfpr.usandofirestore.databinding.ActivityListarBinding
 
 class ListarActivity : AppCompatActivity() {
 

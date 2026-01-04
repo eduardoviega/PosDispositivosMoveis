@@ -1,4 +1,4 @@
-package br.edu.utfpr.usandosqlite
+package br.edu.utfpr.usandofirestore
 
 import org.junit.Test
 

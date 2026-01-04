@@ -1,11 +1,11 @@
-package br.edu.utfpr.usandosqlite.database
+package br.edu.utfpr.usandofirestore.database
 
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import br.edu.utfpr.usandosqlite.entity.Cadastro
+import br.edu.utfpr.usandofirestore.entity.Cadastro
 
 class DatabaseHandler private constructor(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {

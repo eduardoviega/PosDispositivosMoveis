@@ -1,4 +1,4 @@
-package br.edu.utfpr.usandosqlite.entity
+package br.edu.utfpr.usandofirestore.entity
 
 data class Cadastro(
     val _id: Int,
