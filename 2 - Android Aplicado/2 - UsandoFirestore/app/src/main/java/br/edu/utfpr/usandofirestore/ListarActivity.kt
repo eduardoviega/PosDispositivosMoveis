@@ -6,9 +6,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import br.edu.utfpr.usandofirestore.adapter.MeuAdapter
 import br.edu.utfpr.usandofirestore.database.DatabaseHandler
 import br.edu.utfpr.usandofirestore.databinding.ActivityListarBinding
+import kotlinx.coroutines.launch
 
 class ListarActivity : AppCompatActivity() {
 
@@ -22,7 +24,7 @@ class ListarActivity : AppCompatActivity() {
         binding = ActivityListarBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        banco = DatabaseHandler.getInstance(this)
+        banco = DatabaseHandler.getInstance()
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -53,11 +55,11 @@ class ListarActivity : AppCompatActivity() {
     }
 
     private fun initList(filtro: String = "") {
-        val registros = banco.listar(filtro)
-
-        val adapter = MeuAdapter(this, registros)
-
-        binding.lvRegistros.adapter = adapter
+        lifecycleScope.launch {
+            val registros = banco.listar(filtro)
+            val adapter = MeuAdapter(this@ListarActivity, registros)
+            binding.lvRegistros.adapter = adapter
+        }
     }
 
     fun fabIncluirOnClick() {
