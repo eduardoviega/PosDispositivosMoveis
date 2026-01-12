@@ -160,12 +160,14 @@ fun PanelResult(resultado: String, modifier: Modifier = Modifier) {
     ) {
         Text(
             text = "Resultado:",
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(8.dp),
+            color = MaterialTheme.colorScheme.onPrimary
         )
         Text(
             text = resultado,
             modifier = Modifier.padding(8.dp),
-            style = MaterialTheme.typography.headlineLarge
+            style = MaterialTheme.typography.headlineLarge,
+            color = MaterialTheme.colorScheme.onPrimary
         )
     }
 }
