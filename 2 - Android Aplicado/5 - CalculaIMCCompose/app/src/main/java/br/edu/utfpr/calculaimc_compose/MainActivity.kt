@@ -4,6 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -31,6 +35,9 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import br.edu.utfpr.calculaimc_compose.model.ImcViewModel
 import br.edu.utfpr.calculaimc_compose.ui.theme.CalculaIMCComposeTheme
 
@@ -40,10 +47,34 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             CalculaIMCComposeTheme {
+                val navController = rememberNavController()
+
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    CalculaIMCScreen(
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    NavHost(
+                        navController = navController,
+                        startDestination = "home",
+                        modifier = Modifier.padding(innerPadding),
+                        enterTransition = {
+                            slideInHorizontally(initialOffsetX = { -it }) + fadeIn()
+                        },
+                        exitTransition = {
+                            slideOutHorizontally(targetOffsetX = { it }) + fadeOut()
+                        }
+                    ) {
+                        composable("home") {
+                            CalculaIMCScreen(
+                                modifier = Modifier.fillMaxSize(),
+                                onNavigateToDeveloper = {
+                                    navController.navigate("developer")
+                                }
+                            )
+                        }
+                        composable("developer") {
+                            DeveloperScreen(
+                                modifier = Modifier.fillMaxSize()
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -53,11 +84,14 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun CalculaIMCScreen(
     modifier: Modifier = Modifier,
-    viewModel: ImcViewModel = viewModel()
+    viewModel: ImcViewModel = viewModel(),
+    onNavigateToDeveloper: () -> Unit
 ) {
     var focusRequester by remember { mutableStateOf(FocusRequester()) }
 
-    Column {
+    Column(
+        modifier = modifier
+    ) {
         OutlinedTextField(
             value = viewModel.peso,
             onValueChange = { viewModel.onPesoChange(it) },
@@ -91,6 +125,16 @@ fun CalculaIMCScreen(
             },
             modifier = modifier,
         )
+
+        Button(
+            onClick = onNavigateToDeveloper,
+            modifier = Modifier
+                .padding(8.dp)
+                .fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiary)
+        ) {
+            Text("Sobre o Desenvolvedor")
+        }
     }
 }
 
@@ -98,7 +142,9 @@ fun CalculaIMCScreen(
 @Composable
 fun CalculaIMCScreenPreview() {
     CalculaIMCComposeTheme {
-        CalculaIMCScreen()
+        CalculaIMCScreen(
+            onNavigateToDeveloper = {}
+        )
     }
 }
 
@@ -170,5 +216,29 @@ private fun PanelButtonsPreview() {
             onCalcularClick = {},
             onLimparClick = {}
         )
+    }
+}
+
+@Composable
+fun DeveloperScreen(modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier
+            .padding(8.dp)
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text("Desenvolvido por:")
+        Text(
+            "eduardoviega12@gmail.com", style = MaterialTheme.typography.headlineMedium
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun DeveloperScreenPreview() {
+    CalculaIMCComposeTheme {
+        DeveloperScreen()
     }
 }
