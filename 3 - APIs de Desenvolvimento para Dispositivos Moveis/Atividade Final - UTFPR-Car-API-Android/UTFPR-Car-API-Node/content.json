@@ -1,0 +1,82 @@
+[
+  {
+    "id": "001",
+    "imageUrl": "https://example.com/car1.jpg",
+    "year": "2020/2021",
+    "name": "Carro A",
+    "licence": "ABC-1234",
+    "place": { "lat": -23.5505, "long": -46.6333 }
+  },
+  {
+    "id": "002",
+    "imageUrl": "https://example.com/car2.jpg",
+    "year": "2019/2020",
+    "name": "Carro B",
+    "licence": "DEF-5678",
+    "place": { "lat": -22.9068, "long": -43.1729 }
+  },
+  {
+    "id": "003",
+    "imageUrl": "https://example.com/car3.jpg",
+    "year": "2018/2018",
+    "name": "Carro C",
+    "licence": "GHI-9012",
+    "place": { "lat": -19.9167, "long": -43.9345 }
+  },
+  {
+    "id": "004",
+    "imageUrl": "https://example.com/car4.jpg",
+    "year": "2021/2021",
+    "name": "Carro D",
+    "licence": "JKL-3456",
+    "place": { "lat": -15.7801, "long": -47.9292 }
+  },
+  {
+    "id": "005",
+    "imageUrl": "https://example.com/car5.jpg",
+    "year": "2020/2020",
+    "name": "Carro E",
+    "licence": "MNO-7890",
+    "place": { "lat": -12.9714, "long": -38.5014 }
+  },
+  {
+    "id": "006",
+    "imageUrl": "https://example.com/car6.jpg",
+    "year": "2017/2018",
+    "name": "Carro F",
+    "licence": "PQR-2345",
+    "place": { "lat": -8.0476, "long": -34.8770 }
+  },
+  {
+    "id": "007",
+    "imageUrl": "https://example.com/car7.jpg",
+    "year": "2019/2020",
+    "name": "Carro G",
+    "licence": "STU-6789",
+    "place": { "lat": -1.4558, "long": -48.4902 }
+  },
+  {
+    "id": "008",
+    "imageUrl": "https://example.com/car8.jpg",
+    "year": "2022/2023",
+    "name": "Carro H",
+    "licence": "VWX-1234",
+    "place": { "lat": -3.1190, "long": -60.0217 }
+  },
+  {
+    "id": "009",
+    "imageUrl": "https://example.com/car9.jpg",
+    "year": "2020/2021",
+    "name": "Carro I",
+    "licence": "YZA-5678",
+    "place": { "lat": -25.4284, "long": -49.2733 }
+  },
+  {
+    "id": "010",
+    "imageUrl": "https://example.com/car10.jpg",
+    "year": "2021/2022",
+    "name": "Carro J",
+    "licence": "BCD-9012",
+    "place": { "lat": -27.5954, "long": -48.5480 }
+  }
+]
