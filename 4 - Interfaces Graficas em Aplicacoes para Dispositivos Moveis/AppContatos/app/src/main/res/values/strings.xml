@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">App Contatos</string>
+    <string name="title_activity_contacts_list_screen">ContactsListScreen</string>
+</resources>
