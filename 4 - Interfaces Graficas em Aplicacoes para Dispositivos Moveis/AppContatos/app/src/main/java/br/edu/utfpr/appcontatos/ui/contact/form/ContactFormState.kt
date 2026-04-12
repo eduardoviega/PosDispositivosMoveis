@@ -7,7 +7,10 @@ import java.time.LocalDate
 data class FormField<T>(
     val value: T,
     val errorMessage: String = ""
-)
+) {
+    val hasError get(): Boolean = errorMessage.isNotBlank()
+    val isValid get(): Boolean = !hasError
+}
 
 data class FormState(
     val firstName: FormField<String> = FormField(""),
@@ -18,14 +21,27 @@ data class FormState(
     val assetValue: FormField<String> = FormField(""),
     val birthDate: FormField<LocalDate> = FormField(LocalDate.now()),
     val type: FormField<ContactTypeEnum> = FormField(ContactTypeEnum.PERSONAL)
-)
+) {
+    val isValid get(): Boolean = firstName.isValid
+            && lastName.isValid
+            && phoneNumber.isValid
+            && email.isValid
+            && isFavorite.isValid
+            && assetValue.isValid
+            && birthDate.isValid
+            && type.isValid
+}
 
 data class ContactFormState(
     val contactId: Int = 0,
     val isLoading: Boolean = false,
     val contact: Contact = Contact(),
     val hasErrorLoading: Boolean = false,
-    val formState: FormState = FormState()
+    val formState: FormState = FormState(),
+    val isProcessing: Boolean = false,
+    val processingErrorMessage: String = "",
+    val contactUpdated: Boolean = false,
+    val showConfirmationDialog: Boolean = false
 ) {
     val isNewContact get(): Boolean = contactId <= 0
 }

@@ -46,19 +46,19 @@ class ContactFormViewModel(
                 )
             } else {
                 uiState.copy(
-                        isLoading = false,
-                        contact = contact,
-                        formState = FormState(
-                            firstName = FormField(contact.firstName),
-                            lastName = FormField(contact.lastName),
-                            phoneNumber = FormField(contact.phoneNumber),
-                            email = FormField(contact.email),
-                            isFavorite = FormField(contact.isFavorite),
-                            assetValue = FormField(contact.assetValue.toString()),
-                            birthDate = FormField(contact.birthDate),
-                            type = FormField(contact.type)
-                        )
+                    isLoading = false,
+                    contact = contact,
+                    formState = FormState(
+                        firstName = FormField(contact.firstName),
+                        lastName = FormField(contact.lastName),
+                        phoneNumber = FormField(contact.phoneNumber),
+                        email = FormField(contact.email),
+                        isFavorite = FormField(contact.isFavorite),
+                        assetValue = FormField(contact.assetValue.movePointRight(2).toString()),
+                        birthDate = FormField(contact.birthDate),
+                        type = FormField(contact.type)
                     )
+                )
             }
         }
     }
@@ -73,6 +73,81 @@ class ContactFormViewModel(
             is FormEvent.UpdateLastName -> onLastNameChanged(event.newValue)
             is FormEvent.UpdatePhoneNumber -> onPhoneNumberChanged(event.newValue)
             is FormEvent.UpdateType -> onTypeChanged(event.newValue)
+        }
+    }
+
+    fun save() {
+        if (uiState.isProcessing || !isValidForm()) return
+
+        uiState = uiState.copy(
+            isProcessing = true,
+            processingErrorMessage = ""
+        )
+        viewModelScope.launch {
+            delay(2000)
+            val hasError = Random.nextBoolean()
+            uiState = if (hasError) {
+                uiState.copy(
+                    isProcessing = false,
+                    processingErrorMessage =
+                        "Ocorreu um erro ao salvar. Aguarde um momento e tente novamente."
+                )
+            } else {
+                val contactToSave = uiState.contact.copy(
+                    firstName = uiState.formState.firstName.value,
+                    lastName = uiState.formState.lastName.value,
+                    phoneNumber = uiState.formState.phoneNumber.value,
+                    email = uiState.formState.email.value,
+                    isFavorite = uiState.formState.isFavorite.value,
+                    assetValue = uiState.formState.assetValue.value.let {
+                        if (it.isBlank()) {
+                            BigDecimal.ZERO
+                        } else {
+                            BigDecimal(it).movePointLeft(2)
+                        }
+                    },
+                    type = uiState.formState.type.value,
+                    birthDate = uiState.formState.birthDate.value
+                )
+                ContactDatasource.instance.save(contactToSave)
+                uiState.copy(
+                    isProcessing = false,
+                    contactUpdated = true
+                )
+            }
+        }
+    }
+
+    fun showConfirmationDialog() {
+        uiState = uiState.copy(showConfirmationDialog = true)
+    }
+
+    fun hideConfirmationDialog() {
+        uiState = uiState.copy(showConfirmationDialog = false)
+    }
+
+    fun delete() {
+        uiState = uiState.copy(
+            isProcessing = true,
+            showConfirmationDialog = false,
+            processingErrorMessage = ""
+        )
+        viewModelScope.launch {
+            delay(2000)
+            val hasError = Random.nextBoolean()
+            uiState = if (hasError) {
+                uiState.copy(
+                    isProcessing = false,
+                    processingErrorMessage =
+                        "Ocorreu um erro ao remover. Aguarde um momento e tente novamente."
+                )
+            } else {
+                ContactDatasource.instance.delete(uiState.contact)
+                uiState.copy(
+                    isProcessing = false,
+                    contactUpdated = true
+                )
+            }
         }
     }
 
@@ -107,25 +182,25 @@ class ContactFormViewModel(
     }
 
     private fun onPhoneNumberChanged(newValue: String) {
-        if (uiState.formState.phoneNumber.value == newValue) return
+        val newPhoneNumber: String = newValue.filter { it.isDigit() }
+        if (newPhoneNumber.length > 11
+            || uiState.formState.phoneNumber.value == newPhoneNumber) return
 
         uiState = uiState.copy(
             formState = uiState.formState.copy(
                 phoneNumber = FormField(
-                    value = newValue,
-                    errorMessage = validatePhoneNumber(newValue)
+                    value = newPhoneNumber,
+                    errorMessage = validatePhoneNumber(newPhoneNumber)
                 )
             )
         )
     }
 
     private fun validatePhoneNumber(value: String): String =
-        if (value.isBlank()
-            || (value.length in 10..11
-                    && !value.contains(Regex("\\D")))) {
-            ""
+        if (value.isNotBlank() && value.length < 10) {
+            "Informe um telefone válido"
         } else {
-            "Informe um telefone válido (apenas dígitos)"
+            ""
         }
 
     private fun onEmailChanged(newValue: String) {
@@ -143,7 +218,8 @@ class ContactFormViewModel(
 
     private fun validateEmail(value: String): String =
         if (value.isNotBlank()
-            && !Regex("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$").matches(value)) {
+            && !Regex("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$").matches(value)
+        ) {
             "Informe um e-mail válido"
         } else {
             ""
@@ -160,27 +236,17 @@ class ContactFormViewModel(
     }
 
     private fun onAssetValueChanged(newValue: String) {
-        if (uiState.formState.assetValue.value == newValue) return
+        val newAssetValue = newValue.filter { it.isDigit() }
+        if (newAssetValue.length >= 20
+            || uiState.formState.assetValue.value == newAssetValue) return
 
         uiState = uiState.copy(
             formState = uiState.formState.copy(
                 assetValue = FormField(
-                    value = newValue,
-                    errorMessage = validateAssetValue(newValue)
+                    value = newAssetValue
                 )
             )
         )
-    }
-
-    private fun validateAssetValue(value: String): String {
-        if (value.isBlank()) return ""
-
-        try {
-            BigDecimal(value)
-            return ""
-        } catch (_: NumberFormatException) {
-            return "Informe um valor válido"
-        }
     }
 
     private fun onBirthDateChanged(newValue: LocalDate) {
@@ -201,5 +267,22 @@ class ContactFormViewModel(
                 type = FormField(newValue)
             )
         )
+    }
+
+    private fun isValidForm(): Boolean {
+        uiState = uiState.copy(
+            formState = uiState.formState.copy(
+                firstName = uiState.formState.firstName.copy(
+                    errorMessage = validateFirstName(uiState.formState.firstName.value)
+                ),
+                phoneNumber = uiState.formState.phoneNumber.copy(
+                    errorMessage = validatePhoneNumber(uiState.formState.phoneNumber.value)
+                ),
+                email = uiState.formState.email.copy(
+                    errorMessage = validateEmail(uiState.formState.email.value)
+                ),
+            )
+        )
+        return uiState.formState.isValid
     }
 }
