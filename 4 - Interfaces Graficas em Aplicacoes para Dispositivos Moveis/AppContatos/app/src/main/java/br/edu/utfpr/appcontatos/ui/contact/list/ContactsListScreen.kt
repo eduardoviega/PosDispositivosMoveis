@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.edu.utfpr.appcontatos.R
 import br.edu.utfpr.appcontatos.data.Contact
+import br.edu.utfpr.appcontatos.ui.shared.composables.ContactAvatar
 import br.edu.utfpr.appcontatos.ui.theme.AppContatosTheme
 import kotlin.random.Random
 
@@ -291,6 +292,12 @@ fun ContactListItem(
         modifier = modifier,
         headlineContent = {
             Text(contact.fullName)
+        },
+        leadingContent = {
+            ContactAvatar(
+                firstName = contact.firstName,
+                lastName = contact.lastName
+            )
         },
         trailingContent = {
             IconButton(
