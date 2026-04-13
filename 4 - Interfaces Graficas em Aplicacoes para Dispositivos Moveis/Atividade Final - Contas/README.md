@@ -34,22 +34,6 @@ O aplicativo foi estruturado com separação de responsabilidades entre UI, View
 | Confirmação de exclusão | 1,5 | Janela de confirmação exibida antes da remoção de um lançamento. |
 | Validações | 1,5 | Validação de formulário com descrição obrigatória, valor obrigatório e tratamento de entrada inválida no campo valor. |
 
-**Cobertura documentada dos critérios da atividade: 10,5/10,5 pontos.**
-
----
-
-## 📱 Funcionalidades Implementadas
-
-- [x] Cadastro de lançamento com **descrição**, **valor**, **data**, **tipo** (Receita/Despesa) e **status de pagamento**
-- [x] Edição de lançamento existente
-- [x] Exclusão de lançamento com diálogo de confirmação
-- [x] Validações de formulário (descrição obrigatória, valor obrigatório e valor válido)
-- [x] Listagem de lançamentos ordenada por data
-- [x] Indicador visual de status em cada item da lista (ícone à esquerda)
-- [x] Diferenciação visual entre receitas e despesas por cor e sinal do valor
-- [x] Cálculo de **Saldo** (considera apenas lançamentos pagos)
-- [x] Cálculo de **Previsão** (considera todos os lançamentos)
-- [x] Navegação entre tela de listagem e tela de formulário
 
 ---
 
