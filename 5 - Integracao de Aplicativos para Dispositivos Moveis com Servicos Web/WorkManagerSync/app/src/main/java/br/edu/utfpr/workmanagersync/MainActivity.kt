@@ -13,19 +13,23 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Button
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -42,8 +46,12 @@ import androidx.compose.ui.unit.dp
 import br.edu.utfpr.workmanagersync.data.NoteEntity
 import br.edu.utfpr.workmanagersync.repository.NoteRepository
 import br.edu.utfpr.workmanagersync.ui.theme.WorkManagerSyncTheme
+import br.edu.utfpr.workmanagersync.worker.SyncStatus
 import br.edu.utfpr.workmanagersync.worker.WorkScheduler
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,15 +73,26 @@ fun NotesScreen() {
     val scope = rememberCoroutineScope()
     val notesFlow = remember(repository) { repository.observeAllNotes() }
     val notes by notesFlow.collectAsState(initial = emptyList())
+    val listState = rememberLazyListState()
+
+    val syncStatusFlow = remember(context) { WorkScheduler.observeSyncWork(context) }
+    val syncStatus by syncStatusFlow.collectAsState(initial = SyncStatus.idle())
 
     var title by rememberSaveable { mutableStateOf("") }
     var description by rememberSaveable { mutableStateOf("") }
     var feedback by rememberSaveable { mutableStateOf("Crie uma anotação para iniciar a sincronização automática.") }
 
+    // Scroll para o topo quando notas forem adicionadas
+    LaunchedEffect(notes.size) {
+        if (notes.isNotEmpty()) {
+            listState.animateScrollToItem(0)
+        }
+    }
+
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         topBar = {
-            TopAppBar(
+            CenterAlignedTopAppBar(
                 title = {
                     Text(
                         text = "WorkManager Sync",
@@ -111,7 +130,7 @@ fun NotesScreen() {
                 onValueChange = { description = it },
                 modifier = Modifier.fillMaxWidth(),
                 label = { Text("Descrição") },
-                minLines = 3
+                minLines = 2
             )
             Button(
                 onClick = {
@@ -146,6 +165,8 @@ fun NotesScreen() {
                 )
             }
 
+            SyncStatusCard(syncStatus = syncStatus)
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
@@ -166,6 +187,7 @@ fun NotesScreen() {
                 EmptyState()
             } else {
                 LazyColumn(
+                    state = listState,
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                     contentPadding = PaddingValues(bottom = 16.dp)
                 ) {
@@ -174,6 +196,90 @@ fun NotesScreen() {
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun SyncStatusCard(syncStatus: SyncStatus) {
+    val statusColor = when (syncStatus.state) {
+        "RUNNING" -> MaterialTheme.colorScheme.primaryContainer
+        "SUCCEEDED" -> MaterialTheme.colorScheme.secondaryContainer
+        "FAILED" -> MaterialTheme.colorScheme.tertiaryContainer
+        "ENQUEUED" -> MaterialTheme.colorScheme.inversePrimary
+        "CANCELLED", "BLOCKED" -> MaterialTheme.colorScheme.scrim
+        else -> MaterialTheme.colorScheme.surfaceVariant
+    }
+
+    val statusTextColor = when (syncStatus.state) {
+        "RUNNING" -> MaterialTheme.colorScheme.onPrimaryContainer
+        "SUCCEEDED" -> MaterialTheme.colorScheme.onSecondaryContainer
+        "FAILED" -> MaterialTheme.colorScheme.onTertiaryContainer
+        "ENQUEUED" -> MaterialTheme.colorScheme.onPrimary
+        "CANCELLED", "BLOCKED" -> MaterialTheme.colorScheme.onSurface
+        else -> MaterialTheme.colorScheme.onSurface
+    }
+
+    ElevatedCard(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(14.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Status da Sincronização",
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.SemiBold
+                )
+            }
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                if (syncStatus.state == "RUNNING") {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(20.dp),
+                        strokeWidth = 2.dp,
+                        color = statusTextColor
+                    )
+                }
+
+                Text(
+                    text = syncStatus.message,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.weight(1f)
+                )
+
+                Surface(
+                    shape = MaterialTheme.shapes.small,
+                    color = statusColor,
+                    modifier = Modifier.wrapContentWidth()
+                ) {
+                    Text(
+                        text = syncStatus.state,
+                        style = MaterialTheme.typography.labelSmall,
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                        color = statusTextColor
+                    )
+                }
+            }
+
+            Text(
+                text = "Última atualização: ${formatTimestamp(syncStatus.lastUpdated)}",
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.outline
+            )
         }
     }
 }
@@ -250,3 +356,8 @@ private fun NoteCard(note: NoteEntity) {
         }
     }
 }
+
+private fun formatTimestamp(timestamp: Long): String {
+    return SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date(timestamp))
+}
+

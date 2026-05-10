@@ -24,6 +24,7 @@ class SyncWorker(
             }
             Result.success()
         } catch (cancellationException: CancellationException) {
+            Log.w(TAG, "Sincronização cancelada", cancellationException)
             throw cancellationException
         } catch (exception: Exception) {
             Log.e(TAG, "Falha na sincronização. Solicitando retry automático.", exception)

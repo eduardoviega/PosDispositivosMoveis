@@ -30,6 +30,19 @@ class NoteRepository private constructor(context: Context) {
             note
         }
 
+    suspend fun getPendingNotesCount(): Int = withContext(Dispatchers.IO) {
+        noteDao.getPendingNotes().size
+    }
+
+    suspend fun getSyncedNotesCount(): Int = withContext(Dispatchers.IO) {
+        val allNotes = noteDao.getAllNotes()
+        var syncedCount = 0
+        allNotes.collect { notes ->
+            syncedCount = notes.count { it.isSynced }
+        }
+        syncedCount
+    }
+
     suspend fun syncPendingNotes(): Int = withContext(Dispatchers.IO) {
         val pendingNotes = noteDao.getPendingNotes()
 
