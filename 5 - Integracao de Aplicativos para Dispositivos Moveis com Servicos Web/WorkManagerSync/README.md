@@ -16,6 +16,10 @@ POC Android em Kotlin para demonstrar sincronização offline-first com:
 - Atualiza o banco local para `isSynced = true`;
 - Faz retry automático com `Result.retry()`.
 
+## Vídeo de demonstração do app
+
+https://github.com/user-attachments/assets/15e5f2d5-af80-4598-bc62-62240399041a
+
 ## Configuração do Firebase
 
 1. Crie um projeto no Firebase Console.
