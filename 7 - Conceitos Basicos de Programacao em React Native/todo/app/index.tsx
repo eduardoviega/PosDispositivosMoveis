@@ -4,7 +4,7 @@ import { SuperTextInput } from "@/components/SuperTextInput";
 import { SuperTitle } from "@/components/SuperTitle";
 import TodoItem, { ITodo } from "@/components/TodoItem";
 import { useState } from "react";
-import { ScrollView } from "react-native";
+import { Alert, ScrollView } from "react-native";
 
 export default function Index() {
 
@@ -32,6 +32,26 @@ export default function Index() {
     );
   }
 
+  const deleteItem = (id: string) => {
+    Alert.alert(
+      "Excluir item",
+      "Tem certeza que deseja excluir este item?",
+      [
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
+        {
+          text: "Excluir",
+          style: "destructive",
+          onPress: () => {
+            setTodos((todos) => todos.filter((todo) => todo.id !== id));
+          },
+        },
+      ]
+    );
+  };
+
   return (
     <ScrollView style={styles.container}>
       <SuperTitle title="Lista de Compras" />
@@ -44,6 +64,7 @@ export default function Index() {
             key={todo.id}
             todo={todo}
             updateItem={updateItem}
+            deleteItem={deleteItem}
           />
         );
       })}

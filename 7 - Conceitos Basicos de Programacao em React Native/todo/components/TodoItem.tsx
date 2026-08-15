@@ -11,15 +11,24 @@ export interface ITodo {
 export interface ITodoItem {
     todo: ITodo;
     updateItem: (id: string) => void;
+    deleteItem: (id: string) => void;
 }
 
-export default function TodoItem({ todo, updateItem }: ITodoItem) {
+export default function TodoItem({ todo, updateItem, deleteItem }: ITodoItem) {
     const updateTodo = () => {
         updateItem(todo.id);
     }
 
+    const deleteTodo = () => {
+        deleteItem(todo.id);
+    }
+
     return (
-        <TouchableOpacity style={styles.card} onPress={updateTodo}>
+        <TouchableOpacity
+            style={styles.card}
+            onPress={updateTodo}
+            onLongPress={deleteTodo}
+        >
             <Text style={styles.titleButton}>{todo.title}</Text>
             <Text style={styles.description}>
                 {todo.completed
