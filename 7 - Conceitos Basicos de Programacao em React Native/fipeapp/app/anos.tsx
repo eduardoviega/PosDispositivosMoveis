@@ -20,8 +20,8 @@ export default function AnosDetalhe() {
   const goNext = (codigo: string) => {
     console.log("Codigo: ", codigo);
     router.navigate({
-      pathname: "/anos",
-      params: { codigoMarca: codigoMarca, codigoModelo: codigo },
+      pathname: "/veiculo",
+      params: { codigoMarca: codigoMarca, codigoModelo: codigoModelo, codigoAno: codigo },
     });
   };
 
