@@ -1,31 +1,12 @@
-import { Button } from "@react-navigation/elements";
+import FipeScreen from "@/components/FipeScreen";
+import { fetcher } from "@/services/fetcher";
 import { useRouter } from "expo-router";
-import { Text, View } from "react-native";
+import useSWR from "swr";
 
 export default function Index() {
-
   const router = useRouter();
 
-  return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "yellow",
-      }}
-    >
-      <Text>LOGIN</Text>
+  const { data } = useSWR("/carros/marcas", fetcher);
 
-      <View style={{ flexDirection: "row", gap: 16 }}>
-        <Button onPressIn={() => router.navigate("/register")}>
-          Cadastre-se
-        </Button>
-        
-        <Button onPressIn={() => router.replace("/home")}>
-          Entrar
-        </Button>
-      </View>
-    </View>
-  );
+  return <FipeScreen data={data} />;
 }
