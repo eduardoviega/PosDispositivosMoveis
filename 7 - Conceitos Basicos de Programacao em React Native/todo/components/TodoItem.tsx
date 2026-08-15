@@ -2,7 +2,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { Text, TouchableOpacity, View } from "react-native";
 import { styles } from "./styles";
 
-interface ITodo {
+export interface ITodo {
     id: string;
     title: string;
     completed: boolean;
@@ -21,7 +21,11 @@ export default function TodoItem({ todo, updateItem }: ITodoItem) {
     return (
         <TouchableOpacity style={styles.card} onPress={updateTodo}>
             <Text style={styles.titleButton}>{todo.title}</Text>
-            <Text style={styles.description}>Subtítulo</Text>
+            <Text style={styles.description}>
+                {todo.completed
+                    ? "Concluída"
+                    : "Toque para concluir · segure para excluir"}
+            </Text>
 
             <View style={styles.checkbox}>
                 {todo.completed && (

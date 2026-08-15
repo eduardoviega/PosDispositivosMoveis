@@ -28,7 +28,7 @@ export const styles = StyleSheet.create({
         color: theme.text,
     },
     description: {
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: "300",
         marginTop: 6,
         color: theme.button,

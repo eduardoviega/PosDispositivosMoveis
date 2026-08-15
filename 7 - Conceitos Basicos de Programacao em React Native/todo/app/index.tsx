@@ -2,25 +2,22 @@ import { styles } from "@/components/styles";
 import { SuperButton } from "@/components/SuperButton";
 import { SuperTextInput } from "@/components/SuperTextInput";
 import { SuperTitle } from "@/components/SuperTitle";
-import TodoItem, { ITodoItem } from "@/components/TodoItem";
+import TodoItem, { ITodo } from "@/components/TodoItem";
 import { useState } from "react";
 import { ScrollView } from "react-native";
 
 export default function Index() {
 
   const [newItem, setNewItem] = useState("");
-  const [todos, setTodos] = useState<ITodoItem[]>([]);
+  const [todos, setTodos] = useState<ITodo[]>([]);
 
   const addItem = () => {
     if (newItem.length < 4) return alert("O item deve ter no mínimo 4 caracteres");
 
-    const item: ITodoItem = {
-      todo: {
-        id: Date.now().toString(),
-        title: newItem,
-        completed: false,
-      },
-      updateItem: updateItem,
+    const item: ITodo = {
+      id: Date.now().toString(),
+      title: newItem,
+      completed: false,
     };
 
     setTodos([item, ...todos]);
@@ -28,17 +25,11 @@ export default function Index() {
   };
 
   const updateItem = (id: string) => {
-    setTodos((prevTodos) => {
-      return prevTodos.map((todoItem) => {
-        if (todoItem.todo.id === id) {
-          return {
-            ...todoItem,
-            todo: { ...todoItem.todo, completed: !todoItem.todo.completed },
-          };
-        }
-        return todoItem;
-      });
-    });
+    setTodos((todos) =>
+      todos.map((todo) =>
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+      )
+    );
   }
 
   return (
@@ -47,12 +38,14 @@ export default function Index() {
       <SuperTextInput value={newItem} onChangeText={setNewItem} />
       <SuperButton title="Novo Item" onPress={addItem} />
 
-      {todos.map((todoItem) => {
-        return <TodoItem
-          key={todoItem.todo.id}
-          todo={todoItem.todo}
-          updateItem={updateItem}
-        />
+      {todos.map((todo) => {
+        return (
+          <TodoItem
+            key={todo.id}
+            todo={todo}
+            updateItem={updateItem}
+          />
+        );
       })}
     </ScrollView>
   );
