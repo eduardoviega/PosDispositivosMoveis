@@ -1,0 +1,60 @@
+{
+  "expo": {
+    "name": "Ponto Certo",
+    "slug": "ponto-certo",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "pontocerto",
+    "userInterfaceStyle": "automatic",
+    "android": {
+      "package": "br.edu.utfpr.pontocerto",
+      "googleServicesFile": "./google-services.json",
+      "adaptiveIcon": {
+        "backgroundColor": "#F3E8EE",
+        "foregroundImage": "./assets/images/android-icon-foreground.png",
+        "backgroundImage": "./assets/images/android-icon-background.png",
+        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false,
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
+    },
+    "web": {
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#7A2E52",
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 76
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "O Ponto Certo usa suas fotos para ilustrar as peças que você cadastra.",
+          "cameraPermission": "O Ponto Certo usa a câmera para fotografar a peça pronta."
+        }
+      ],
+      "@react-native-google-signin/google-signin",
+      "@react-native-firebase/app",
+      "@react-native-firebase/auth"
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "8f3cfac3-ff74-4860-b571-5c1632c4ee97"
+      }
+    }
+  }
+}
