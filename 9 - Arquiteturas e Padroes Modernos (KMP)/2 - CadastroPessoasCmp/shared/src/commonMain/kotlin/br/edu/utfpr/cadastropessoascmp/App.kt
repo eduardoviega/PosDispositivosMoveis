@@ -7,6 +7,7 @@ import br.edu.utfpr.cadastropessoascmp.domain.model.Endereco
 import br.edu.utfpr.cadastropessoascmp.domain.model.Pessoa
 import br.edu.utfpr.cadastropessoascmp.ui.list.PessoasListScreen
 import br.edu.utfpr.cadastropessoascmp.ui.list.PessoasListUiState
+import br.edu.utfpr.cadastropessoascmp.ui.navigation.AppNavHost
 
 @Composable
 @Preview
@@ -41,11 +42,6 @@ fun App() {
             )
         )
 
-        PessoasListScreen(
-            uiState = PessoasListUiState.Success(pessoas = samplePessoas),
-            onRefresh = {},
-            onRetry = {},
-            onAddClick = {}
-        )
+        AppNavHost(pessoas = samplePessoas)
     }
 }
