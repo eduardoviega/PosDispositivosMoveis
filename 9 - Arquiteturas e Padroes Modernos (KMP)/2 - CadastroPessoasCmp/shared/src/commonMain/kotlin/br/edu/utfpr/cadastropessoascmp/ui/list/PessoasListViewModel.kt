@@ -2,7 +2,6 @@ package br.edu.utfpr.cadastropessoascmp.ui.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.edu.utfpr.cadastropessoascmp.data.repository.PessoaRepositoryImpl
 import br.edu.utfpr.cadastropessoascmp.domain.repository.PessoaRepository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,7 +11,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
 class PessoasListViewModel(
-    private val pessoaRepository: PessoaRepository = PessoaRepositoryImpl()
+    private val pessoaRepository: PessoaRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<PessoasListUiState>(PessoasListUiState.Loading)
